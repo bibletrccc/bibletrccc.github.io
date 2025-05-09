@@ -104,6 +104,24 @@
             await downloadAll();
         }
 
+        async function downloadAll(){
+            var urls=[".","update.html","01/1047.htm"];
+            divMsg2.innerHTML += '<div>updating...</div>';
+            await download(".");
+
+            for(var i=1047;i<=1096;i++){
+                divMsg2.innerHTML += '<div>updating...</div>';
+				var theFile = `01/${i}.htm`;
+                await download(theFile);
+            }
+			for(var i=1;i<=103;i++)
+			{
+			   var numStr = String(i).padStart(3,'0');
+			   var fileName=`01/zj/1_${numStr}.htm`;
+			   await download(fileName);
+			}
+
+        }
         async function download(url){
             var result = false;
             if(!url||url.length==0) return false;
@@ -116,34 +134,7 @@
                 });
              return result;   
         }
-        async function downloadAll(){
-            var urls=[".","update.html","01/1047.htm"];
-            var updatedUrls = [];
-            divMsg2.innerHTML += '<div>updating...</div>';
-            var content = await downloadContent(".");
-            console.log(`[${urls[0]}]-------------------------------`);
-            if(content && content.length>0){
-                console.log(content);
-                updatedUrls.push(".");
-            } else {
-                divMsg2.innerHTML +='<div>failed to download the home page</div>';
-            }
-            for(var i=1047;i<=1096;i++){
-                divMsg2.innerHTML += '<div>updating...</div>';
-				var theFile = `01/${i}.htm`;
-                var result = await download(theFile);
-                if(result){
-                    updatedUrls.push(theFile);
-                }
-            }
-			for(var i=1;i<=103;i++)
-			{
-			   var numStr = String(i).padStart(3,'0');
-			   var fileName=`zj/1_${numStr}.htm`;
-			   await download(fileName);
-			}
-
-        }
+		
         async function downloadContent(url){
             var content;
             await fetch(url, {cache: "reload"})
