@@ -9,7 +9,6 @@
     <link rel="icon" type="image/png" href="images/bible16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="images/bible32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="images/bible96.png" sizes="96x96">    
-    <!-- Add to home screen for Safari on iOS -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="圣经中文版">
@@ -31,47 +30,6 @@
 		</ol>
 		</div>
 	</div>
-	<script>
-		var _registerServiceWorker = function(){
-			if (!navigator.serviceWorker) return;
-			
-			navigator.serviceWorker.register('sw.js').then(function(reg) {
-			   if(!navigator.serviceWorker.controller) return;
-
-			   if (reg.waiting) {
-				 _updateReady(reg.waiting);
-				 return;
-			   }
-
-			   if (reg.installing) {
-				 _trackInstalling(reg.installing);
-				 return;
-			   }
-
-			   reg.addEventListener('updatefound', function() {
-				 _trackInstalling(reg.installing);
-			   });
-			 });
-		   
-			 var refreshing;
-			 navigator.serviceWorker.addEventListener('controllerchange', function(){
-				 if(refreshing) return;
-				 window.location.reload();
-				 refreshing = true;
-			 });
-	   };
-	   var _trackInstalling = function(worker) {
-		   worker.addEventListener('statechange', function(){
-			   if(worker.state == 'installed') {
-				   _updateReady(worker);
-			   }
-		   });
-	   };
-	   var _updateReady = function(worker){
-		   //new version available
-		   worker.postMessage({action: 'skipWaiting'});
-	   };
-	_registerServiceWorker();
-	</script>
+	<script src="main.js"></script>
   </body>
 </html>
