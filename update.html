@@ -83,7 +83,7 @@
                 }
 
                 //3. delete the existing cache storage
-                divMsg2.innerHTML="<div>deleting cache...</div>";
+                divMsg2.innerHTML="";
                 for(var i=0;i<cacheNameList.length;i++){
                     console.log(`delete cache - ${cacheNameList[i]}`);
                     await caches.delete(cacheNameList[i]);
@@ -104,18 +104,17 @@
 
         async function downloadAll(){
             var urls=[".","update.html","01/1047.htm"];
-            divMsg2.innerHTML += '<div>updating...</div>';
+            divMsg2.innerHTML += '<div>downloading...</div>';
             await download(".");
 
             for(var i=1047;i<=1096;i++){
-                divMsg2.innerHTML += '<div>updating...</div>';
 				var theFile = `01/${i}.htm`;
                 await download(theFile);
             }
 			for(var i=1;i<=103;i++)
 			{
 			   var numStr = String(i).padStart(3,'0');
-			   var fileName=`01/zj/1_${numStr}.htm`;
+			   var fileName=`01/zj/01_${numStr}.htm`;
 			   await download(fileName);
 			}
 
