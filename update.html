@@ -118,7 +118,7 @@
                 var fileName = `01/zj/01_${numStr}.htm`;
                 await download(fileName);
             }
-            divMsg2.innerHTML += '<div>download complete!</div>';
+            divMsg2.innerHTML = '<div>download complete!</div>';
         }
         async function download(url) {
             var result = false;
