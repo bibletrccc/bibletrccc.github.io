@@ -43,57 +43,59 @@
         var divMsg2 = document.getElementById("divmsg2");
         var btnUpdate = document.getElementById("btnupdate");
 
-        if(window.location.protocol=="https:")
+        if (window.location.protocol == "https:")
             divMsg1.innerHTML = "你的网络连接是HTTPS协议(Secure)";
-        else if(window.location.protocol=="http:")
+        else if (window.location.protocol == "http:")
             divMsg1.innerHTML = "你的网络连接是HTTP协议(Not secure)";
-        
+
         btnUpdate.addEventListener("click", updateApp);
 
-        async function updateApp(){
+        async function updateApp() {
             btnUpdate.classList.add("disabled");
             await updateAppFiles();
             btnUpdate.classList.remove("disabled");
         }
 
-        async function updateAppFiles(){
-            divMsg2.innerHTML="";
-            if(!navigator.onLine){
-                divMsg2.innerHTML="当前网络是断开的，无法更新！";
+        async function updateAppFiles() {
+            divMsg2.innerHTML = "";
+            if (!navigator.onLine) {
+                divMsg2.innerHTML = "当前网络是断开的，无法更新！";
                 return;
             }
-            var testUrl="update.html";
-            if(location.protocol=="https:"||location.host=="localhost"){
+            var testUrl = "update.html";
+            if (location.protocol == "https:" || location.host == "localhost") {
                 var cacheNameList = await caches.keys();
                 cacheNameList = cacheNameList.filter(a => a.startsWith("bible-"));
                 //1. delete the existing update.html from existing cache
-                for(var i=0;i<cacheNameList.length;i++){
+                for (var i = 0; i < cacheNameList.length; i++) {
                     await caches.open(cacheNameList[i])
-                    .then(cache=>cache.delete(testUrl,{ignoreSearch: true}));
+                        .then(cache => cache.delete(testUrl, {
+                            ignoreSearch: true
+                        }));
                 }
 
                 //2. check the network connection
                 var isDownloadOkay = await download(testUrl).catch(err => {
-                    divMsg2.innerHTML =  `<div>网络出错-${err.message}<br>请稍后再试</div>`;
+                    divMsg2.innerHTML = `<div>网络出错-${err.message}<br>请稍后再试</div>`;
                     return;
                 });
-                if(!isDownloadOkay){
+                if (!isDownloadOkay) {
                     divMsg2.innerHTML = "<div>无法连接到服务器<br>请稍后再试</div>";
                     return;
                 }
 
                 //3. delete the existing cache storage
-                divMsg2.innerHTML="";
-                for(var i=0;i<cacheNameList.length;i++){
+                divMsg2.innerHTML = "";
+                for (var i = 0; i < cacheNameList.length; i++) {
                     console.log(`delete cache - ${cacheNameList[i]}`);
                     await caches.delete(cacheNameList[i]);
                 }
-            }else{
+            } else {
                 var isDownloadOkay = await download(testUrl).catch(err => {
                     divMsg2.innerHTML = `<div>网络出错-${err.message}<br>请稍后再试</div>`;
                     return;
                 });
-                if(!isDownloadOkay){
+                if (!isDownloadOkay) {
                     divMsg2.innerHTML = "<div>无法连接到服务器<br>请稍后再试</div>";
                     return;
                 }
@@ -102,50 +104,36 @@
             await downloadAll();
         }
 
-        async function downloadAll(){
-            var urls=[".","update.html","01/1047.htm"];
+        async function downloadAll() {
+            var urls = [".", "update.html", "01/1047.htm"];
             divMsg2.innerHTML += '<div>downloading...</div>';
             await download(".");
 
-            for(var i=1047;i<=1096;i++){
-				var theFile = `01/${i}.htm`;
+            for (var i = 1047; i <= 1096; i++) {
+                var theFile = `01/${i}.htm`;
                 await download(theFile);
             }
-			for(var i=1;i<=103;i++)
-			{
-			   var numStr = String(i).padStart(3,'0');
-			   var fileName=`01/zj/01_${numStr}.htm`;
-			   await download(fileName);
-			}
-
+            for (var i = 1; i <= 103; i++) {
+                var numStr = String(i).padStart(3, '0');
+                var fileName = `01/zj/01_${numStr}.htm`;
+                await download(fileName);
+            }
+            divMsg2.innerHTML += '<div>download complete!</div>';
         }
-        async function download(url){
+        async function download(url) {
             var result = false;
-            if(!url||url.length==0) return false;
-            await fetch(url, {cache: "reload"})
-                .then(response =>{
+            if (!url || url.length == 0) return false;
+            await fetch(url, {
+                    cache: "reload"
+                })
+                .then(response => {
                     result = response && response.ok;
                 })
-                .catch(err=>{
+                .catch(err => {
                     console.log(err);
                 });
-             return result;   
-        }
-		
-        async function downloadContent(url){
-            var content;
-            await fetch(url, {cache: "reload"})
-            .then(response=>response.text())
-            .then(data=>{
-                content=data;
-            })
-            .catch(err => {
-                console.log(url, err);
-                //divMsg2.innerHTML += `<div>${err.message}</div>`;
-            });
-
-            return content;
-        }
+            return result;
+        }		
     </script>
   </body>
 </html>
