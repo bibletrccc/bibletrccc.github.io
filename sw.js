@@ -1,4 +1,4 @@
-var cacheName = 'bible-0.0.1.a';
+var cacheName = 'bible-0.0.1.c';
 self.addEventListener('install', function(event){
 	event.waitUntil(
 		caches.open(cacheName).then(function(cache){
