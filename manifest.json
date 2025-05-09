@@ -1,0 +1,29 @@
+{
+  "short_name": "圣经中文版",
+  "name": "圣经中文版",
+  "icons": [
+    {
+      "src": "images/bible192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/bible512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6",
+  "description": "圣经中文版",
+  "screenshots": [
+    {
+      "src": "images/bible512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
