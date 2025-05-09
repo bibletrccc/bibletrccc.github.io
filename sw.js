@@ -1,4 +1,4 @@
-var cacheName = 'bible-0.0.1.2';
+var cacheName = 'bible-0.0.1.a';
 self.addEventListener('install', function(event){
 	event.waitUntil(
 		caches.open(cacheName).then(function(cache){
@@ -29,8 +29,8 @@ self.addEventListener('activate', function(event){
 });
 
 self.addEventListener("fetch", function(event) {
-	//if(event.request.url.match(/.php/i))
-	//	return; //do not cache the api calls
+	if(event.request.url.match(/update.html/i))
+		return; //do not cache the update file
 	
 	event.respondWith(
 		caches.match(event.request, {ignoreSearch: true}).then((resp) => {
