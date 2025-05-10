@@ -21,9 +21,9 @@
   "description": "圣经中文版",
   "screenshots": [
     {
-      "src": "images/bible512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "images/screenshot.jpg",
+      "type": "image/jpg",
+      "sizes": "540x1020"
     }
   ]
 }
